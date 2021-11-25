@@ -26,10 +26,14 @@ def Check_Access(testbed):
       PC = Ubuntu("Admin")
       with Cluster("Network Entreprise"):
 
-         SWITCH=Custom("Switch", "./static/Switch.png")
+         SWITCH=Custom("Switch", "./static/Switch.jpg")
          for k,l in Device_Decision.items():
-            Dev=Custom(k+'\n'+ l + '\n'+ testbed.devices[k].connections.cli.protocol+":"+str(testbed.devices[k].connections.cli.port), "./static/"+testbed.devices[k].type+".jpg")
-            Topology_Devices.append(Dev)
+            
+            if l =="No Access":
+                Dev=Custom(k+'\n'+ l + '\n'+ testbed.devices[k].connections.cli.protocol+":"+str(testbed.devices[k].connections.cli.port), "./static/"+testbed.devices[k].type+'_down'+".png")
+            else:
+                Dev=Custom(k+'\n'+ l + '\n'+ testbed.devices[k].connections.cli.protocol+":"+str(testbed.devices[k].connections.cli.port), "./static/"+testbed.devices[k].type+".png")
+                Topology_Devices.append(Dev)
          PC >> SWITCH >> Topology_Devices
    shutil.move("Topology_Result.png", "static/Topology_Result.png")
    return Device_Decision
